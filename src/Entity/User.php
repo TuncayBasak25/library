@@ -6,10 +6,12 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(fields={"username"}, message="There is already an account with this username")
  */
 class User implements UserInterface
 {
@@ -40,16 +42,6 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $email;
-
-    /**
-     * @ORM\Column(type="date")
-     */
-    private $loginDate;
-
-    /**
-     * @ORM\Column(type="date")
-     */
-    private $signupDate;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -152,30 +144,6 @@ class User implements UserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
-
-        return $this;
-    }
-
-    public function getLoginDate(): ?\DateTimeInterface
-    {
-        return $this->loginDate;
-    }
-
-    public function setLoginDate(\DateTimeInterface $loginDate): self
-    {
-        $this->loginDate = $loginDate;
-
-        return $this;
-    }
-
-    public function getSignupDate(): ?\DateTimeInterface
-    {
-        return $this->signupDate;
-    }
-
-    public function setSignupDate(\DateTimeInterface $signupDate): self
-    {
-        $this->signupDate = $signupDate;
 
         return $this;
     }
